@@ -3,8 +3,15 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type PaginationMeta {
+  limit: Int!
+  page: Int!
+  total: Int!
+}
+
 type Query {
-  students: [Student!]!
+  student(filter: StudentFilterInput): Student
+  students(filter: StudentFilterInput, limit: Int = 10, page: Int = 1, sort: [[String!]!] = [["id", "desc"]]): StudentsResponse!
 }
 
 """The student model"""
@@ -12,4 +19,15 @@ type Student {
   email: String!
   id: ID!
   name: String!
+}
+
+input StudentFilterInput {
+  email: String
+  id: ID
+  name: String
+}
+
+type StudentsResponse {
+  data: [Student!]!
+  meta: PaginationMeta!
 }

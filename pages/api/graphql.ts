@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server-micro";
 import { buildSchema } from "type-graphql";
 import Container from "typedi";
-import StudentResolver from "./student/student.resolver";
+import { StudentResolver } from "./student/student.resolver";
 
 async function apolloBootstrap(req, res) {
   const schema = await buildSchema({
