@@ -3,6 +3,17 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input CreateStudentInput {
+  email: String!
+  name: String!
+}
+
+type Mutation {
+  createStudent(input: CreateStudentInput!): Student!
+  removeStudent(id: String!): Boolean!
+  updateStudent(input: UpdateStudentInput!): Student!
+}
+
 type PaginationMeta {
   limit: Int!
   page: Int!
@@ -30,4 +41,10 @@ input StudentFilterInput {
 type StudentsResponse {
   data: [Student!]!
   meta: PaginationMeta!
+}
+
+input UpdateStudentInput {
+  email: String!
+  id: String!
+  name: String!
 }

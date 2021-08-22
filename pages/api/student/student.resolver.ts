@@ -1,8 +1,10 @@
-import { Args, Query, Resolver } from "type-graphql";
+import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 import { Service } from "typedi";
+import { CreateStudentInput } from "./dto/create-student.input";
 import { StudentArg } from "./dto/student.arg";
 import { StudentsArg } from "./dto/students.arg";
 import { StudentsResponse } from "./dto/students.response";
+import { UpdateStudentInput } from "./dto/update-student.input";
 import { Student } from "./entity/student.entity";
 import { StudentService } from "./student.service";
 
@@ -30,5 +32,20 @@ export class StudentResolver {
   @Query(() => Student, { name: "student", nullable: true })
   find(@Args() params: StudentArg) {
     return this.studentService.findOne(params);
+  }
+
+  @Mutation(() => Student, { name: "createStudent" })
+  create(@Arg("input") input: CreateStudentInput) {
+    return this.studentService.create(input);
+  }
+
+  @Mutation(() => Student, { name: "updateStudent" })
+  update(@Arg("input") input: UpdateStudentInput) {
+    return this.studentService.update(input.id, input);
+  }
+
+  @Mutation(() => Boolean, { name: "removeStudent" })
+  remove(@Arg("id") id: string) {
+    return this.studentService.remove(id);
   }
 }

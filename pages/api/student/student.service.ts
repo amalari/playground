@@ -4,11 +4,12 @@ import { Service } from "typedi";
 import * as _ from "lodash";
 import { Student } from "./entity/student.entity";
 import { CreateStudentInput } from "./dto/create-student.input";
+import { UpdateStudentInput } from "./dto/update-student.input";
 
 @Service()
 export class StudentService {
   private studentModel;
-  private studentName = "student";
+  private studentName = process.cwd() + "\\pages\\api\\student\\student";
 
   constructor() {
     this.studentModel = new JsonDB(new Config(this.studentName, true, false));
@@ -18,6 +19,10 @@ export class StudentService {
     let data = this.studentModel.getData("/");
 
     return _.isEmpty(data) ? [] : data;
+  }
+
+  private setData(data) {
+    this.studentModel.push(this.studentName, data, true);
   }
 
   findAndCountAll({ filter = {}, page, limit }): {
@@ -42,6 +47,7 @@ export class StudentService {
 
   create(student: CreateStudentInput): Student {
     let data = this.getData();
+    console.log({ data });
     const id =
       data.length > 0 ? String(Number(data[data.length - 1].id) + 1) : "1";
     const newStudent = {
@@ -49,7 +55,28 @@ export class StudentService {
       id,
     };
     data.push(newStudent);
-    this.studentModel.push(this.studentName, data, true);
+    this.setData(data);
     return newStudent;
+  }
+
+  update(id: string, student: UpdateStudentInput): Student {
+    let data = this.getData();
+    const index = _.findIndex(data, { id });
+    const newStudent = {
+      ...data[index],
+      ...student,
+    };
+    data[index] = newStudent;
+    this.setData(data);
+    return newStudent;
+  }
+
+  remove(id: string): Boolean {
+    let data = this.getData();
+    const index = _.findIndex(data, { id });
+    data.splice(index, 1);
+    this.setData(data);
+
+    return true;
   }
 }

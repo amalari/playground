@@ -1,29 +1,27 @@
-import useSWR from 'swr'
+import StaffLayout from './../components/Layouts/Staff'
+import type { ReactElement } from 'react'
+import {  useAuthState } from '../context/context';
+import dynamic from 'next/dynamic'
 
-const fetcher = (query) =>
-  fetch('/api/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json',
-    },
-    body: JSON.stringify({ query }),
-  })
-  .then((res) => res.json())
-  .then((json) => json.data)
 
-export default function Index() {
-  const { data, error } = useSWR('{ users { name } }', fetcher)
-
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
-
-  const { users } = data
+const Index = () => {
+  console.log(useAuthState())
 
   return (
-    <div>
-      {users.map((user, i) => (
-        <div key={i}>{user.name}</div>
-      ))}
-    </div>
+		  <p>test</p>
+	);
+}
+
+Index.getLayout = function getLayout(page: ReactElement) {
+  const AuthProvider = dynamic(() => import('./../context/AuthProvider'), { ssr: false })
+
+  return (
+    <AuthProvider>
+      <StaffLayout>
+        {page}
+      </StaffLayout>
+    </AuthProvider>
   )
 }
+
+export default Index;
