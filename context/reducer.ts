@@ -1,6 +1,8 @@
+import { staff } from "./context";
+
 const user = localStorage.getItem("currentUser")
-  ? JSON.parse(localStorage.getItem("currentUser")).user
-  : { id: "0", name: "Staff", email: "staff@gmail.com" };
+  ? JSON.parse(localStorage.getItem("currentUser"))
+  : staff;
 
 export const initialState = {
   user,
@@ -12,7 +14,7 @@ export const AuthReducer = (initialState, action) => {
     case "LOGIN_SUCCESS":
       return {
         ...initialState,
-        user: action.payload.user,
+        user: action.payload,
         loading: false,
       };
 

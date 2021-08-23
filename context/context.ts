@@ -2,6 +2,7 @@ import React from "react";
 
 export const AuthStateContext = React.createContext(null);
 export const AuthDispatchContext = React.createContext(null);
+export const staff = { id: "0", name: "Staff", email: "staff@gmail.com" };
 
 export function useAuthState() {
   const context = React.useContext(AuthStateContext);
