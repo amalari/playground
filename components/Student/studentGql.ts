@@ -36,3 +36,19 @@ export const ADD_STUDENT_MUTATION = gql`
     }
   }
 `;
+
+export const UPDATE_STUDENT_MUTATION = gql`
+  mutation updateStudent($input: UpdateStudentInput!) {
+    updateStudent(input: $input) {
+      id
+      name
+      email
+    }
+  }
+`;
+
+export const DELETE_STUDENT_MUTATION = gql`
+  mutation removeStudent($id: String!) {
+    removeStudent(id: $id)
+  }
+`;

@@ -1,19 +1,35 @@
 import { useQuery } from "@apollo/client";
-import React, { useRef } from "react"
-import { Button, Spinner, Table } from "react-bootstrap"
+import React, { useRef, useState } from "react"
+import { Button, Col, Row, Spinner, Table } from "react-bootstrap"
 import AddStudentForm from "./AddStudentForm";
+import DeleteStudentConfirm from "./DeleteStudentConfirm";
 import EditStudentForm from "./EditStudentForm";
 import { STUDENTS_QUERY } from "./studentGql";
 
 const StudentTable = () => {
     const { data: studentData, loading, error, refetch } = useQuery(STUDENTS_QUERY);
+    const [selectedStudent, setSelectedStudent] = useState(null)
     const editStudentFormRef = useRef(null)
+    const deleteStudentConfirmRef = useRef(null)
     if(loading) return <Spinner animation="grow" />
 
+    const handleEdit = (student) => {
+        setSelectedStudent(student)
+        editStudentFormRef.current.setShow(true)
+    }
+
+    const handleDelete = (student) => {
+        setSelectedStudent(student)
+        deleteStudentConfirmRef.current.confirm()
+    }
     return (
         <>
-            <AddStudentForm onFinish={() => refetch()} />
-            <EditStudentForm ref={editStudentFormRef} />
+            <Row>
+                <Col><h3>List of Student</h3></Col>
+                <Col><AddStudentForm onFinish={() => refetch()} /></Col>
+            </Row>
+            <EditStudentForm onFinish={() => refetch()} id={selectedStudent?.id} ref={editStudentFormRef} />
+            <DeleteStudentConfirm onFinish={() => refetch()} id={selectedStudent?.id} ref={deleteStudentConfirmRef} />
             <Table striped bordered hover>
                 <thead>
                 <tr>
@@ -29,7 +45,10 @@ const StudentTable = () => {
                             <td>{++index}</td>
                             <td>{student.name}</td>
                             <td>{student.email}</td>
-                            <td><Button onClick={() => editStudentFormRef.current.setShow(true)}>Edit</Button></td>
+                            <td>
+                                <Button className="me-2" variant="outline-secondary" onClick={() => handleEdit(student)}>Edit</Button>
+                                <Button variant="danger" onClick={() => handleDelete(student)}>Delete</Button>
+                            </td>
                         </tr>
                     )}
                 </tbody>

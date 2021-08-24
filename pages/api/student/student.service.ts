@@ -29,8 +29,9 @@ export class StudentService {
     count: number;
     data: Student[];
   } {
+    const finalFIlter = _.pickBy(filter, (v) => v !== undefined);
     let data = this.getData();
-    const query = filter ? _.chain(data).filter(filter) : _.chain(data);
+    const query = filter ? _.chain(data).filter(finalFIlter) : _.chain(data);
     const count = query.value().length;
     data = query
       .drop((page - 1) * limit)
@@ -41,8 +42,9 @@ export class StudentService {
   }
 
   findOne({ filter = {} }): Student {
+    const finalFIlter = _.pickBy(filter, (v) => v !== undefined);
     let data = this.getData();
-    return _.find(data, filter);
+    return _.find(data, finalFIlter);
   }
 
   create(student: CreateStudentInput): Student {

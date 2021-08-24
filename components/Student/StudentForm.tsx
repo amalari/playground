@@ -24,12 +24,12 @@ const StudentForm = ({onSave, initValues}) => {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="name">
                 <Form.Label>Name</Form.Label>
-                <Form.Control onInput={(e) => handleInput('name', e)} required type="text" placeholder="Input Name" />
+                <Form.Control defaultValue={form.name} onInput={(e) => handleInput('name', e)} required type="text" placeholder="Input Name" />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email</Form.Label>
-                <Form.Control onInput={(e) => handleInput('email', e)} required type="email" placeholder="Input Email" />
+                <Form.Control defaultValue={form.email}  onInput={(e) => handleInput('email', e)} required type="email" placeholder="Input Email" />
             </Form.Group>
             <Button variant="primary" type="submit">
                 Submit

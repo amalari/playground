@@ -26,7 +26,7 @@ const AddStudentForm = ({onFinish}) => {
 
     return (
         <>
-            <Button variant="primary" className="mb-3" onClick={() => setShow(true)}>Add</Button>
+            <Button variant="success" className="mb-2 float-end" onClick={() => setShow(true)}>Add</Button>
             <Modal show={show} onHide={() => setShow(false)} aria-labelledby="contained-modal-title-vcenter">
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
