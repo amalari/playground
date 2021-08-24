@@ -1,5 +1,5 @@
 import StaffLayout from "./../components/Layouts/Staff";
-import { ReactElement, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { ApolloProvider } from "@apollo/client";
 import client from "../lib/apollo-client";
@@ -21,12 +21,22 @@ const Index = () => {
   const [showFormEdit, setShowFormEdit] = useState(false);
   const [showFormReviewer, setShowReviewer] = useState(false);
   const [showFormGrade, setShowFormGrade] = useState(false);
+  const [showSubmitDialog, setShowSubmitDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedChallenge, setSelectedChallenge] = useState(null);
   const [tab, setTab] = useState("challenge");
   const deleteDialogEl = useRef(null);
   const submitDialogEl = useRef(null);
   const tableEl = useRef(null);
 
+  useEffect(() => {
+    if (showSubmitDialog) {
+      submitDialogEl.current.confirm();
+    }
+    if (showDeleteDialog) {
+      deleteDialogEl.current.confirm();
+    }
+  }, [selectedChallenge]);
   const handleEdit = (challenge) => {
     setSelectedChallenge(challenge);
     setShowFormEdit(true);
@@ -42,21 +52,24 @@ const Index = () => {
     setShowFormGrade(true);
   };
 
-  const handleDelete = (student) => {
-    setSelectedChallenge(student);
-    deleteDialogEl.current.confirm();
+  const handleDelete = (challenge) => {
+    setSelectedChallenge(challenge);
+    setShowDeleteDialog(true);
   };
 
   const handleSubmit = (challenge) => {
     setSelectedChallenge(challenge);
-    submitDialogEl.current.confirm();
+    setShowSubmitDialog(true);
   };
 
   const handleFinish = () => tableEl.current.refetch();
   const challangeTable = (
     <>
       <SubmitChallengeConfirm
-        onFinish={handleFinish}
+        onFinish={() => {
+          setShowSubmitDialog(false);
+          handleFinish();
+        }}
         id={selectedChallenge?.id}
         ref={submitDialogEl}
       />
@@ -96,7 +109,10 @@ const Index = () => {
         />
       )}
       <DeleteChallengeConfirm
-        onFinish={handleFinish}
+        onFinish={() => {
+          setShowDeleteDialog(false);
+          handleFinish();
+        }}
         id={selectedChallenge?.id}
         ref={deleteDialogEl}
       />

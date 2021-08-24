@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, Row, Spinner, Table } from "react-bootstrap";
 import Image from "next/image";
 import AddStudentForm from "./AddStudentForm";
@@ -15,8 +15,12 @@ const StudentTable = () => {
     refetch,
   } = useQuery(STUDENTS_QUERY);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const editStudentFormRef = useRef(null);
   const deleteStudentConfirmRef = useRef(null);
+  useEffect(() => {
+    if (showDeleteDialog) deleteStudentConfirmRef.current.confirm();
+  }, [selectedStudent]);
   if (loading) return <Spinner animation="grow" />;
 
   const handleEdit = (student) => {
@@ -26,7 +30,7 @@ const StudentTable = () => {
 
   const handleDelete = (student) => {
     setSelectedStudent(student);
-    deleteStudentConfirmRef.current.confirm();
+    setShowDeleteDialog(true);
   };
   return (
     <>
@@ -50,7 +54,10 @@ const StudentTable = () => {
             ref={editStudentFormRef}
           />
           <DeleteStudentConfirm
-            onFinish={() => refetch()}
+            onFinish={() => {
+              setShowDeleteDialog(false);
+              refetch();
+            }}
             id={selectedStudent?.id}
             ref={deleteStudentConfirmRef}
           />
