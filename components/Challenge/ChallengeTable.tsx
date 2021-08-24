@@ -26,6 +26,13 @@ const ChallengeTable = (
       refetch();
     },
   }));
+  const mine = (challenge) => {
+    return (
+      challenge.gradingStatus === "UNSUBMITTED" &&
+      challenge.studentId === userId
+    );
+  };
+
   if (loading) return <Spinner animation="grow" />;
 
   return (
@@ -74,7 +81,7 @@ const ChallengeTable = (
                 <td>{challenge.grade || "-"}</td>
                 <td>{challenge.gradingStatus}</td>
                 <td>
-                  {challenge.studentId === userId && (
+                  {mine(challenge) && (
                     <Button
                       className="me-2"
                       variant="outline-secondary"
@@ -83,7 +90,7 @@ const ChallengeTable = (
                       Edit
                     </Button>
                   )}
-                  {challenge.gradingStatus === "UNSUBMITTED" && (
+                  {mine(challenge) && (
                     <Button
                       className="me-2"
                       variant="primary"
@@ -92,7 +99,7 @@ const ChallengeTable = (
                       Submit
                     </Button>
                   )}
-                  {challenge.gradingStatus === "SUBMITTED" && (
+                  {userId === "0" && (
                     <>
                       <Button
                         className="me-2"
@@ -106,7 +113,7 @@ const ChallengeTable = (
                         variant="outline-primary"
                         onClick={() => onSetGrade(challenge)}
                       >
-                        Set Reviewer
+                        Set Grade
                       </Button>
                     </>
                   )}
