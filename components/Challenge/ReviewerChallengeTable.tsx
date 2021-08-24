@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
+import Link from "next/link";
 import { Spinner, Table } from "react-bootstrap";
 import Image from "next/image";
 import { CHALLENGES_QUERY } from "./challengeGql";
@@ -42,7 +43,13 @@ const ReviewrChallengeTable = ({ userId }) => {
               <tr key={challenge.id}>
                 <td>{++index}</td>
                 <td>{challenge.name}</td>
-                <td>{challenge.googleDriveFolder || "-"}</td>
+                <td>
+                  {(
+                    <Link href={challenge.googleDriveFolder}>
+                      <a target="_blank">{challenge.googleDriveFolder}</a>
+                    </Link>
+                  ) || "-"}
+                </td>
                 <td>{challenge.student ? challenge.student.name : "-"}</td>
                 <td>{challenge.reviewer ? challenge.reviewer.name : "-"}</td>
                 <td>{challenge.grade || "-"}</td>

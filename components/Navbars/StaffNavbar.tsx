@@ -17,13 +17,13 @@ const StaffNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Nav>
             {isStaff && (
-              <Nav.Link>
+              <span className="my-2">
                 <Link href="/student">Student</Link>
-              </Nav.Link>
+              </span>
             )}
-            <Nav.Link>
+            <span className="mx-2 my-2">
               <Link href="/">Challenge</Link>
-            </Nav.Link>
+            </span>
             <Button variant="primary" onClick={() => setLoginShow(true)}>
               {auth.user.name}
             </Button>

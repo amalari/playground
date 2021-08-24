@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React, { forwardRef, useRef, useState } from "react";
 import { useImperativeHandle } from "react";
+import Link from "next/link";
 import { Button, Spinner, Table } from "react-bootstrap";
 import Image from "next/image";
 import { CHALLENGES_QUERY } from "./challengeGql";
@@ -71,9 +72,9 @@ const ChallengeTable = (
                 <td>{challenge.name}</td>
                 <td>
                   {(
-                    <a target="_blank" href={challenge.googleDriveFolder}>
-                      {challenge.googleDriveFolder}
-                    </a>
+                    <Link href={challenge.googleDriveFolder}>
+                      <a target="_blank">{challenge.googleDriveFolder}</a>
+                    </Link>
                   ) || "-"}
                 </td>
                 <td>{challenge.student ? challenge.student.name : "-"}</td>
