@@ -9,7 +9,7 @@ export class UpdateChallengeInput {
   name: string;
 
   @Field({ nullable: true })
-  goolgeDriveFolder: string;
+  googleDriveFolder: string;
 
   @Field(() => ID)
   studentId: string;

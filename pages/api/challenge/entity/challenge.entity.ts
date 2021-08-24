@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
+import { Student } from "../../student/entity/student.entity";
 
 @ObjectType({ description: "The challenge model" })
 export class Challenge {
@@ -9,7 +10,7 @@ export class Challenge {
   name: string;
 
   @Field({ nullable: true })
-  goolgeDriveFolder: string;
+  googleDriveFolder: string;
 
   @Field()
   gradingStatus: string;
@@ -22,4 +23,10 @@ export class Challenge {
 
   @Field(() => ID, { nullable: true })
   reviewerId: string;
+
+  @Field(() => Student, { nullable: true })
+  student: Student;
+
+  @Field(() => Student, { nullable: true })
+  reviewer: Student;
 }

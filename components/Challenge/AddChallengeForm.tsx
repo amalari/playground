@@ -15,7 +15,7 @@ const AddChallengeForm = ({onFinish, show, onHide}) => {
     })
     const initValues = {
         name: '',
-        goolgeDriveFolder: '',
+        googleDriveFolder: '',
         studentId: auth.user.id
     }
     const handleSave = async (values) => {

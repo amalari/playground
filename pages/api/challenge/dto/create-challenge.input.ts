@@ -7,7 +7,7 @@ export class CreateChallengeInput implements Partial<Challenge> {
   name: string;
 
   @Field({ nullable: true })
-  goolgeDriveFolder: string;
+  googleDriveFolder: string;
 
   @Field(() => ID)
   studentId: string;

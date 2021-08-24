@@ -5,12 +5,14 @@
 
 """The challenge model"""
 type Challenge {
-  goolgeDriveFolder: String
+  googleDriveFolder: String
   grade: Float
   gradingStatus: String!
   id: ID!
   name: String!
+  reviewer: Student
   reviewerId: ID
+  student: Student
   studentId: ID!
 }
 
@@ -30,7 +32,7 @@ type ChallengesResponse {
 }
 
 input CreateChallengeInput {
-  goolgeDriveFolder: String
+  googleDriveFolder: String
   name: String!
   studentId: ID!
 }
@@ -45,6 +47,9 @@ type Mutation {
   createStudent(input: CreateStudentInput!): Student!
   removeChallenge(id: String!): Boolean!
   removeStudent(id: String!): Boolean!
+  setGrade(input: SetGradeChallengeInput!): Challenge!
+  setReviewer(input: SetReviewerChallengeInput!): Challenge!
+  submitChallenge(id: String!): Challenge!
   updateChallenge(input: UpdateChallengeInput!): Challenge!
   updateStudent(input: UpdateStudentInput!): Student!
 }
@@ -60,6 +65,16 @@ type Query {
   challenges(filter: ChallengeFilterInput, limit: Int = 10, page: Int = 1, sort: [[String!]!] = [["id", "desc"]]): ChallengesResponse!
   student(filter: StudentFilterInput): Student
   students(filter: StudentFilterInput, limit: Int = 10, page: Int = 1, sort: [[String!]!] = [["id", "desc"]]): StudentsResponse!
+}
+
+input SetGradeChallengeInput {
+  grade: Int!
+  id: ID!
+}
+
+input SetReviewerChallengeInput {
+  id: ID!
+  reviewerId: ID!
 }
 
 """The student model"""
@@ -81,7 +96,7 @@ type StudentsResponse {
 }
 
 input UpdateChallengeInput {
-  goolgeDriveFolder: String
+  googleDriveFolder: String
   id: ID!
   name: String!
   studentId: ID!

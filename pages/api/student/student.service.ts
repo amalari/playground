@@ -25,7 +25,7 @@ export class StudentService {
     this.studentModel.push(this.studentName, data, true);
   }
 
-  findAndCountAll({ filter = {}, page, limit }): {
+  findAndCountAll({ filter, page, limit }): {
     count: number;
     data: Student[];
   } {
@@ -39,6 +39,13 @@ export class StudentService {
       .value();
 
     return { count, data };
+  }
+
+  findAll({ filter = {} }): Student[] {
+    const finalFIlter = _.pickBy(filter, (v) => v !== undefined);
+    let data = this.getData();
+    const query = filter ? _.chain(data).filter(finalFIlter) : _.chain(data);
+    return query.value();
   }
 
   findOne({ filter = {} }): Student {

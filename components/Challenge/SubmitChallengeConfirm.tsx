@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/client'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import Dialog from 'react-bootstrap-dialog'
-import { DELETE_CHALLENGE_MUTATION } from './challengeGql'
+import { SUBMIT_CHALLENGE_MUTATION } from './challengeGql'
 
-const DeleteChallengeConfirm = ({ onFinish, id }, ref) => {
+const SubmitChallengeConfirm = ({ onFinish, id }, ref) => {
     const [dialog, setDialog] = useState(null)
-    const [deleteChallenge, {data, loading, error, }] = useMutation(DELETE_CHALLENGE_MUTATION, {
+    const [submitChallenge, {data, loading, error, }] = useMutation(SUBMIT_CHALLENGE_MUTATION, {
         onCompleted: () => {
             onFinish()
         }
@@ -14,16 +14,16 @@ const DeleteChallengeConfirm = ({ onFinish, id }, ref) => {
     useImperativeHandle(ref, () => ({
         confirm: () => {
             dialog.show({
-                title: 'Delete Confirmation',
-                body: 'Are you sure want to delete this challenge?',
+                title: 'Confirmation',
+                body: 'Are you sure want to submit this challenge?',
                 actions: [
                     Dialog.CancelAction(),
                     Dialog.DefaultAction(
-                        'Remove',
+                        'Submit',
                         async () => {
-                            await deleteChallenge({variables: {id: String(id)}})
+                            await submitChallenge({variables: {id: String(id)}})
                         },
-                        'btn-danger'
+                        'btn-primary'
                     )
                 ],
                 onHide: (dialog) => {
@@ -39,4 +39,4 @@ const DeleteChallengeConfirm = ({ onFinish, id }, ref) => {
     )
 }
 
-export default forwardRef(DeleteChallengeConfirm)
+export default forwardRef(SubmitChallengeConfirm)
