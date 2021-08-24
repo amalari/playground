@@ -49,3 +49,7 @@ Current arbitrary choices are:
 - [GraphQL](https://graphql.org/) architecture with apollo
 - [TypeGraphQL](https://typegraphql.com/), I used this package to optimizing speed of code for generate grapql schema automatically if any changes and manage dependency injection
 - [TypeDI](https://docs.typestack.community/typedi/v/develop/) for dependency injection
+
+## Demo
+
+[https://drive.google.com/file/d/1Yowa9CmgvKN-uj9DKrcqUMAfNojoH0HT/view?usp=sharing](https://drive.google.com/file/d/1Yowa9CmgvKN-uj9DKrcqUMAfNojoH0HT/view?usp=sharing)
