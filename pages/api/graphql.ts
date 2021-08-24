@@ -3,10 +3,11 @@ import { ApolloServer } from "apollo-server-micro";
 import { buildSchema } from "type-graphql";
 import Container from "typedi";
 import { StudentResolver } from "./student/student.resolver";
+import { ChallengeResolver } from "./challenge/challenge.resolver";
 
 async function apolloBootstrap(req, res) {
   const schema = await buildSchema({
-    resolvers: [StudentResolver],
+    resolvers: [StudentResolver, ChallengeResolver],
     container: Container,
     emitSchemaFile: process.cwd() + "/pages/api/graphql-schema.gql",
   });

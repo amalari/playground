@@ -3,14 +3,49 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""The challenge model"""
+type Challenge {
+  goolgeDriveFolder: String
+  grade: Float
+  gradingStatus: String!
+  id: ID!
+  name: String!
+  reviewerId: ID
+  studentId: ID!
+}
+
+input ChallengeFilterInput {
+  email: String
+  grade: Float
+  gradingStatus: String
+  id: ID
+  name: String
+  reviewerId: ID
+  studentId: ID
+}
+
+type ChallengesResponse {
+  data: [Challenge!]!
+  meta: PaginationMeta!
+}
+
+input CreateChallengeInput {
+  goolgeDriveFolder: String
+  name: String!
+  studentId: ID!
+}
+
 input CreateStudentInput {
   email: String!
   name: String!
 }
 
 type Mutation {
+  createChallenge(input: CreateChallengeInput!): Challenge!
   createStudent(input: CreateStudentInput!): Student!
+  removeChallenge(id: String!): Boolean!
   removeStudent(id: String!): Boolean!
+  updateChallenge(input: UpdateChallengeInput!): Challenge!
   updateStudent(input: UpdateStudentInput!): Student!
 }
 
@@ -21,6 +56,8 @@ type PaginationMeta {
 }
 
 type Query {
+  challenge(filter: ChallengeFilterInput): Challenge
+  challenges(filter: ChallengeFilterInput, limit: Int = 10, page: Int = 1, sort: [[String!]!] = [["id", "desc"]]): ChallengesResponse!
   student(filter: StudentFilterInput): Student
   students(filter: StudentFilterInput, limit: Int = 10, page: Int = 1, sort: [[String!]!] = [["id", "desc"]]): StudentsResponse!
 }
@@ -41,6 +78,13 @@ input StudentFilterInput {
 type StudentsResponse {
   data: [Student!]!
   meta: PaginationMeta!
+}
+
+input UpdateChallengeInput {
+  goolgeDriveFolder: String
+  id: ID!
+  name: String!
+  studentId: ID!
 }
 
 input UpdateStudentInput {

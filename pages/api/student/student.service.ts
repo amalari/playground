@@ -49,7 +49,6 @@ export class StudentService {
 
   create(student: CreateStudentInput): Student {
     let data = this.getData();
-    console.log({ data });
     const id =
       data.length > 0 ? String(Number(data[data.length - 1].id) + 1) : "1";
     const newStudent = {
